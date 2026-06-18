@@ -2,20 +2,32 @@ import { useEffect, useState } from 'react'
 import { getSettings, saveSetting, uploadToStorage } from '../../lib/supabase'
 
 const FIELDS = [
+  { section: 'Títulos das Secções', fields: [
+    { key: 'titulo_cerimonia', label: 'Título — Cerimónia',  hint: 'Ex: Cerimónia' },
+    { key: 'titulo_recepcao',  label: 'Título — Recepção',   hint: 'Ex: Recepção' },
+  ]},
   { section: 'Datas & Locais', fields: [
-    { key: 'data_casamento',  label: 'Data (ISO para countdown)',  type: 'text',  hint: 'Ex: 2026-10-03T16:00:00' },
-    { key: 'data_display',    label: 'Data (texto visível)',        type: 'text',  hint: 'Ex: 03 de Outubro, 2026' },
-    { key: 'ano_casamento',   label: 'Ano',                        type: 'text',  hint: '2026' },
-    { key: 'hora_cerimonia',  label: 'Hora da Cerimónia',          type: 'text',  hint: '16:00h' },
-    { key: 'hora_recepcao',   label: 'Hora da Recepção',           type: 'text',  hint: '18:00h' },
-    { key: 'local_cerimonia', label: 'Local da Cerimónia',         type: 'text',  hint: 'Nome da Igreja' },
-    { key: 'morada_cerimonia',label: 'Morada da Cerimónia',        type: 'text',  hint: 'Rua, cidade' },
-    { key: 'local_recepcao',  label: 'Local da Recepção',          type: 'text',  hint: 'Nome do salão' },
-    { key: 'morada_recepcao', label: 'Morada da Recepção',         type: 'text',  hint: 'Rua, cidade' },
+    { key: 'data_casamento',   label: 'Data (ISO para countdown)', hint: 'Ex: 2026-10-03T16:00:00' },
+    { key: 'data_display',     label: 'Data (texto visível)',       hint: 'Ex: 03 de Outubro, 2026' },
+    { key: 'ano_casamento',    label: 'Ano',                        hint: '2026' },
+    { key: 'hora_cerimonia',   label: 'Hora da Cerimónia',          hint: '16:00h' },
+    { key: 'hora_recepcao',    label: 'Hora da Recepção',           hint: '18:00h' },
+    { key: 'local_cerimonia',  label: 'Local da Cerimónia',         hint: 'Nome da Igreja' },
+    { key: 'morada_cerimonia', label: 'Morada da Cerimónia',        hint: 'Bairro, cidade' },
+    { key: 'local_recepcao',   label: 'Local da Recepção',          hint: 'Nome do salão' },
+    { key: 'morada_recepcao',  label: 'Morada da Recepção',         hint: 'Bairro, cidade' },
+  ]},
+  { section: 'Mapa (link Google Maps)', fields: [
+    { key: 'mapa_cerimonia', label: 'Link Mapa — Cerimónia', hint: 'https://maps.google.com/?q=...' },
+    { key: 'mapa_recepcao',  label: 'Link Mapa — Recepção',  hint: 'https://maps.google.com/?q=...' },
+  ]},
+  { section: 'Dress Code & Jantar', fields: [
+    { key: 'dress_code', label: 'Dress Code',  hint: 'Ex: Traje formal / Capulana elegante' },
+    { key: 'jantar',     label: 'Jantar',       hint: 'Ex: Buffet Completo & Open Bar' },
   ]},
   { section: 'Contactos & Presentes', fields: [
-    { key: 'mpesa',      label: 'M-Pesa / Conta bancária', type: 'text', hint: '+258 …' },
-    { key: 'prazo_rsvp', label: 'Prazo confirmação (texto)', type: 'text', hint: 'Ex: 15 de Setembro de 2026' },
+    { key: 'mpesa',      label: 'M-Pesa / Conta bancária',   hint: '+258 …' },
+    { key: 'prazo_rsvp', label: 'Prazo confirmação (texto)', hint: 'Ex: 15 de Setembro de 2026' },
   ]},
 ]
 

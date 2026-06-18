@@ -9,11 +9,11 @@ const BADGE = {
 const LABEL = { confirmado: 'Confirmado', recusado: 'Não Poderá Vir', pendente: 'Pendente' }
 
 export default function RSVPManager() {
-  const [rsvps, setRsvps]       = useState([])
-  const [filter, setFilter]     = useState('todos')
-  const [search, setSearch]     = useState('')
-  const [loading, setLoading]   = useState(true)
-  const [modal, setModal]       = useState(null) // null | 'add' | rsvp-object
+  const [rsvps, setRsvps]     = useState([])
+  const [filter, setFilter]   = useState('todos')
+  const [search, setSearch]   = useState('')
+  const [loading, setLoading] = useState(true)
+  const [modal, setModal]     = useState(null)
 
   const load = async () => {
     setLoading(true)
@@ -47,17 +47,88 @@ export default function RSVPManager() {
     await updateRSVPStatus(id, status); load()
   }
 
-  const handlePrint = () => window.print()
-
   const handleExport = () => {
     const header = 'Nome;Email;Telefone;Pessoas;Status;Mensagem;Data'
     const rows = rsvps.map(r =>
       [r.nome, r.email, r.telefone, r.acompanhantes, r.status, r.mensagem,
-       r.created_at ? new Date(r.created_at).toLocaleDateString('pt-MZ') : ''].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(';')
+       r.created_at ? new Date(r.created_at).toLocaleDateString('pt-MZ') : '']
+      .map(v => `"${(v||'').replace(/"/g,'""')}"`).join(';')
     )
     const blob = new Blob(['﻿' + [header, ...rows].join('\n')], { type: 'text/csv;charset=utf-8' })
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
     a.download = 'convidados.csv'; a.click()
+  }
+
+  const handlePDF = () => {
+    const data = filtered
+    const rows = data.map(r => `
+      <tr>
+        <td>${r.nome || ''}</td>
+        <td>${r.email || '—'}</td>
+        <td>${r.telefone || '—'}</td>
+        <td>${r.acompanhantes || '1 pessoa'}</td>
+        <td class="${r.status === 'confirmado' ? 'green' : r.status === 'recusado' ? 'red' : 'yellow'}">
+          ${LABEL[r.status || 'pendente']}
+        </td>
+        <td>${r.mensagem || ''}</td>
+        <td>${r.created_at ? new Date(r.created_at).toLocaleDateString('pt-MZ') : '—'}</td>
+      </tr>`).join('')
+
+    const filterLabel = filter === 'todos' ? 'Todos' : LABEL[filter] || filter
+    const win = window.open('', '_blank')
+    win.document.write(`<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Convidados — Eckson & Palmira</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; padding: 32px; color: #222; }
+    .header { text-align: center; margin-bottom: 24px; border-bottom: 3px solid #e11d48; padding-bottom: 16px; }
+    .header h1 { font-size: 28px; color: #e11d48; font-family: Georgia, serif; }
+    .header p  { color: #666; font-size: 13px; margin-top: 4px; }
+    .stats { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .stat { border: 1px solid #ddd; border-radius: 8px; padding: 10px 20px; text-align: center; }
+    .stat strong { display: block; font-size: 22px; color: #e11d48; }
+    .stat span { font-size: 11px; color: #888; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    thead { background: #e11d48; color: white; }
+    th { padding: 9px 10px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+    td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:nth-child(even) td { background: #fef2f2; }
+    .green { color: #166534; font-weight: 600; }
+    .red   { color: #991b1b; font-weight: 600; }
+    .yellow{ color: #854d0e; font-weight: 600; }
+    .print-btn { display: block; margin: 0 auto 20px; padding: 10px 28px; background: #e11d48; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600; }
+    .footer { text-align: center; margin-top: 24px; font-size: 11px; color: #aaa; }
+    @media print { .print-btn { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Eckson &amp; Palmira</h1>
+    <p>Lista de Convidados — ${filterLabel} &nbsp;|&nbsp; Gerado em ${new Date().toLocaleDateString('pt-MZ')}</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong>${stats.total}</strong><span>Total</span></div>
+    <div class="stat"><strong>${stats.confirmados}</strong><span>Confirmados</span></div>
+    <div class="stat"><strong>${stats.recusados}</strong><span>Não Virão</span></div>
+    <div class="stat"><strong>${stats.pendentes}</strong><span>Pendentes</span></div>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+  <table>
+    <thead><tr>
+      <th>Nome</th><th>Email</th><th>Telefone</th><th>Pessoas</th><th>Status</th><th>Mensagem</th><th>Data</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">Casamento Eckson &amp; Palmira — 03 de Outubro de 2026</div>
+</body>
+</html>`)
+    win.document.close()
+    win.focus()
+    setTimeout(() => win.print(), 600)
   }
 
   return (
@@ -91,7 +162,11 @@ export default function RSVPManager() {
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
             <i className="fa-solid fa-file-csv mr-1" />CSV
           </button>
-          <button onClick={handlePrint}
+          <button onClick={handlePDF}
+            className="bg-rose-700 hover:bg-rose-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+            <i className="fa-solid fa-file-pdf mr-1" />PDF
+          </button>
+          <button onClick={() => window.print()}
             className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
             <i className="fa-solid fa-print mr-1" />Imprimir
           </button>
@@ -168,7 +243,6 @@ export default function RSVPManager() {
         )}
       </div>
 
-      {/* Modal add/edit */}
       {modal && <RSVPModal rsvp={modal === 'add' ? null : modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load() }} />}
     </div>
   )
