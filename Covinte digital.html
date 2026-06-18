@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casamento Eckson &amp; Palmira</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rose:{50:"#fff1f2",100:"#ffe4e6",200:"#fecdd3",300:"#fda4af",400:"#fb7185",500:"#f43f5e",600:"#e11d48",700:"#be123c",800:"#9f1239",900:"#881337"},
+                        gold:{400:"#d4af37",500:"#c5a028",600:"#b8941f"}
+                    },
+                    fontFamily:{serif:["Playfair Display","serif"],sans:["Montserrat","sans-serif"]}
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>window.FontAwesomeConfig={autoReplaceSvg:"nest"};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>::-webkit-scrollbar{display:none}html{scroll-behavior:smooth}</style>
+</head>
+<body class="bg-rose-50 font-sans">
+
+<!-- HEADER -->
+<header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+  <nav class="container mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="text-2xl font-serif font-bold text-rose-600">E &amp; P</div>
+      <div class="hidden md:flex space-x-8">
+        <a href="#hero" class="text-gray-700 hover:text-rose-600 transition font-medium">Inicio</a>
+        <a href="#nossa-historia" class="text-gray-700 hover:text-rose-600 transition font-medium">Nossa Historia</a>
+        <a href="#cerimonia" class="text-gray-700 hover:text-rose-600 transition font-medium">Cerimonia</a>
+        <a href="#galeria" class="text-gray-700 hover:text-rose-600 transition font-medium">Galeria</a>
+        <a href="#presentes" class="text-gray-700 hover:text-rose-600 transition font-medium">Presentes</a>
+        <a href="#rsvp" class="text-gray-700 hover:text-rose-600 transition font-medium">Confirmar Presenca</a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-gray-700"><i class="fa-solid fa-bars text-2xl"></i></button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 pt-4 space-y-3">
+      <a href="#hero" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Inicio</a>
+      <a href="#nossa-historia" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Nossa Historia</a>
+      <a href="#cerimonia" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Cerimonia</a>
+      <a href="#galeria" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Galeria</a>
+      <a href="#presentes" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Presentes</a>
+      <a href="#rsvp" class="block text-gray-700 hover:text-rose-600 font-medium py-1">Confirmar Presenca</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20 z-10"></div>
+  <img class="absolute inset-0 w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/74ddc9b5d8-9e3a17c7e34bf2ee2e40.png" alt="casal elegante em jardim romantico"/>
+  <div class="relative z-20 text-center text-white px-6">
+    <div class="mb-6"><i class="fa-solid fa-heart text-5xl text-rose-300 animate-pulse"></i></div>
+    <h1 class="font-serif text-7xl md:text-8xl font-bold mb-4">Eckson &amp; Palmira</h1>
+    <p class="text-2xl md:text-3xl font-light mb-8 tracking-wide">Estamos nos casando!</p>
+    <div class="flex items-center justify-center space-x-4 text-xl mb-12">
+      <span class="font-serif font-semibold">03 de Outubro, 2026</span>
+      <span class="text-rose-300">&#8226;</span>
+      <span>Mocambique</span>
+    </div>
+    <a href="#rsvp" class="inline-block bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition transform hover:scale-105 shadow-lg">
+      Confirmar Presenca
+    </a>
+  </div>
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+    <i class="fa-solid fa-chevron-down text-white text-3xl"></i>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<section id="countdown" class="py-20 bg-white">
+  <div class="container mx-auto px-6 max-w-5xl">
+    <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-gray-800 mb-16">Contagem Regressiva</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center"><div class="bg-rose-50 rounded-2xl p-8 shadow-lg"><div class="text-5xl font-bold text-rose-600 mb-2" id="days">0</div><div class="text-gray-600 font-medium">Dias</div></div></div>
+      <div class="text-center"><div class="bg-rose-50 rounded-2xl p-8 shadow-lg"><div class="text-5xl font-bold text-rose-600 mb-2" id="hours">0</div><div class="text-gray-600 font-medium">Horas</div></div></div>
+      <div class="text-center"><div class="bg-rose-50 rounded-2xl p-8 shadow-lg"><div class="text-5xl font-bold text-rose-600 mb-2" id="minutes">0</div><div class="text-gray-600 font-medium">Minutos</div></div></div>
+      <div class="text-center"><div class="bg-rose-50 rounded-2xl p-8 shadow-lg"><div class="text-5xl font-bold text-rose-600 mb-2" id="seconds">0</div><div class="text-gray-600 font-medium">Segundos</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSSA HISTORIA -->
+<section id="nossa-historia" class="py-24 bg-gradient-to-b from-white to-rose-50">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Nossa Historia</h2>
+      <p class="text-xl text-gray-600">Uma jornada de amor e cumplicidade</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+      <div class="order-2 md:order-1">
+        <div class="bg-white p-8 rounded-2xl shadow-xl">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mr-4"><i class="fa-solid fa-heart text-rose-600 text-xl"></i></div>
+            <h3 class="text-2xl font-serif font-bold text-gray-800">Primeiro Encontro</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed mb-4">Foi num momento especial que os dois se encontraram pela primeira vez. Um sorriso, um olhar, e o destino tratou de fazer o resto.</p>
+          <p class="text-rose-600 font-semibold">2018</p>
+        </div>
+      </div>
+      <div class="order-1 md:order-2 h-80 overflow-hidden rounded-2xl shadow-xl">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e5e69c67ac-b0ac68c1c70966051e4c.png" alt="casal em cafe aconchegante"/>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+      <div class="h-80 overflow-hidden rounded-2xl shadow-xl">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/4079528814-3090d7901e9b3b99216c.png" alt="pedido de casamento ao por do sol"/>
+      </div>
+      <div>
+        <div class="bg-white p-8 rounded-2xl shadow-xl">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mr-4"><i class="fa-solid fa-ring text-rose-600 text-xl"></i></div>
+            <h3 class="text-2xl font-serif font-bold text-gray-800">O Pedido</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed mb-4">Num momento inesquecivel, Eckson ajoelhou-se e pediu Palmira em casamento. Com lagrimas nos olhos, ela disse sim ao amor da sua vida.</p>
+          <p class="text-rose-600 font-semibold">2022</p>
+        </div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="order-2 md:order-1">
+        <div class="bg-white p-8 rounded-2xl shadow-xl">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mr-4"><i class="fa-solid fa-church text-rose-600 text-xl"></i></div>
+            <h3 class="text-2xl font-serif font-bold text-gray-800">O Grande Dia</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed mb-4">Agora chegou o momento de celebrar nosso amor com as pessoas mais especiais. Queremos compartilhar este dia magico com voce!</p>
+          <p class="text-rose-600 font-semibold">Outubro de 2026</p>
+        </div>
+      </div>
+      <div class="order-1 md:order-2 h-80 overflow-hidden rounded-2xl shadow-xl">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d22a5aec47-ef3f73643a0c42cdad85.png" alt="local de casamento elegante"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERIMONIA -->
+<section id="cerimonia" class="py-24 bg-white">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Cerimonia &amp; Recepcao</h2>
+      <p class="text-xl text-gray-600">Detalhes do nosso dia especial</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-gradient-to-br from-rose-50 to-rose-100 rounded-2xl p-10 shadow-xl">
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"><i class="fa-solid fa-church text-rose-600 text-3xl"></i></div>
+          <h3 class="text-3xl font-serif font-bold text-gray-800">Cerimonia</h3>
+        </div>
+        <div class="space-y-6">
+          <div class="flex items-start"><i class="fa-solid fa-clock text-rose-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Horario</p><p class="text-gray-600">16:00h</p></div></div>
+          <div class="flex items-start"><i class="fa-solid fa-location-dot text-rose-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Local</p><p class="text-gray-600">Igreja</p><p class="text-gray-500 text-sm">A confirmar</p></div></div>
+          <div class="flex items-start"><i class="fa-solid fa-shirt text-rose-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Dress Code</p><p class="text-gray-600">Traje Passeio Completo</p></div></div>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-10 shadow-xl">
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"><i class="fa-solid fa-champagne-glasses text-yellow-600 text-3xl"></i></div>
+          <h3 class="text-3xl font-serif font-bold text-gray-800">Recepcao</h3>
+        </div>
+        <div class="space-y-6">
+          <div class="flex items-start"><i class="fa-solid fa-clock text-yellow-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Horario</p><p class="text-gray-600">18:00h</p></div></div>
+          <div class="flex items-start"><i class="fa-solid fa-location-dot text-yellow-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Local</p><p class="text-gray-600">Salao de festas</p><p class="text-gray-500 text-sm">A confirmar</p></div></div>
+          <div class="flex items-start"><i class="fa-solid fa-utensils text-yellow-600 text-xl mr-4 mt-1"></i><div><p class="font-semibold text-gray-800">Jantar</p><p class="text-gray-600">Buffet Completo &amp; Open Bar</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria" class="py-24 bg-gradient-to-b from-white to-rose-50">
+  <div class="container mx-auto px-6 max-w-7xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Galeria de Momentos</h2>
+      <p class="text-xl text-gray-600">Nossos momentos mais especiais</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/85bef00f5f-7ae48bce970b40e3edbf.png" alt="casal sorrindo"/>
+      </div>
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/0374637483-fda3f1cb31250439119f.png" alt="casal de maos dadas"/>
+      </div>
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a4ade3bdeb-81db52771c493d0ec42c.png" alt="casal ao por do sol"/>
+      </div>
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/60f908e902-756f92c750a5ffc56621.png" alt="casal dancando"/>
+      </div>
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 md:col-span-2">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/89b454a332-e2040a5616bb3db24dd7.png" alt="casal em piquenique"/>
+      </div>
+      <div class="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 md:col-span-2">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/8950846262-d85798ab1d6f15340552.png" alt="casal no jardim"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESENTES -->
+<section id="presentes" class="py-24 bg-white">
+  <div class="container mx-auto px-6 max-w-5xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Lista de Presentes</h2>
+      <p class="text-xl text-gray-600 mb-8">Sua presenca e nosso maior presente, mas se desejar nos presentear</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-gradient-to-br from-rose-50 to-rose-100 rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl transition transform hover:scale-105">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"><i class="fa-solid fa-gift text-rose-600 text-3xl"></i></div>
+        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-4">Loja Fisica</h3>
+        <p class="text-gray-600 mb-6">Escolha presentes da nossa lista em lojas parceiras</p>
+        <a href="#" class="inline-block bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition">Ver Lista</a>
+      </div>
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl transition transform hover:scale-105">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"><i class="fa-solid fa-shopping-cart text-blue-600 text-3xl"></i></div>
+        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-4">Lista Online</h3>
+        <p class="text-gray-600 mb-6">Presentes online com entrega facilitada</p>
+        <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition">Acessar</a>
+      </div>
+      <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl transition transform hover:scale-105">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"><i class="fa-solid fa-piggy-bank text-green-600 text-3xl"></i></div>
+        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-4">Cota Lua de Mel</h3>
+        <p class="text-gray-600 mb-6">Contribua para nossa viagem dos sonhos</p>
+        <a href="#" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition">Contribuir</a>
+      </div>
+    </div>
+    <div class="mt-12 bg-rose-50 rounded-2xl p-8 text-center">
+      <i class="fa-solid fa-heart text-rose-600 text-3xl mb-4 block"></i>
+      <p class="text-gray-700 text-lg">Mpesa / conta bancaria: <span class="font-bold" id="pix-info">A confirmar</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section id="rsvp" class="py-24 bg-gradient-to-b from-white to-rose-50">
+  <div class="container mx-auto px-6 max-w-3xl">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Confirmar Presenca</h2>
+      <p class="text-xl text-gray-600">Por favor, confirme sua presenca ate 15 de Maio</p>
+    </div>
+
+    <!-- Formulario -->
+    <div id="rsvp-form-wrapper" class="bg-white rounded-2xl shadow-2xl p-10">
+      <form id="rsvp-form" class="space-y-6" novalidate>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2" for="nome">Nome Completo <span class="text-rose-600">*</span></label>
+            <input id="nome" name="nome" type="text" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none"
+              placeholder="Seu nome completo">
+          </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2" for="email">Email</label>
+            <input id="email" name="email" type="email"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none"
+              placeholder="seu@email.com">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2" for="telefone">Telefone</label>
+            <input id="telefone" name="telefone" type="tel"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none"
+              placeholder="+258 00 000 0000">
+          </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2" for="acompanhantes">Numero de Pessoas</label>
+            <select id="acompanhantes" name="acompanhantes"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none">
+              <option value="1 pessoa">1 pessoa</option>
+              <option value="2 pessoas">2 pessoas</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-3">Confirmacao de Presenca <span class="text-rose-600">*</span></label>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <label class="flex items-center cursor-pointer bg-green-50 border-2 border-green-200 hover:border-green-400 rounded-xl px-6 py-4 transition flex-1">
+              <input type="radio" name="presenca" value="confirmado" class="mr-3 w-5 h-5 accent-rose-600">
+              <span class="text-gray-700 font-medium">Sim, estarei presente!</span>
+            </label>
+            <label class="flex items-center cursor-pointer bg-red-50 border-2 border-red-200 hover:border-red-400 rounded-xl px-6 py-4 transition flex-1">
+              <input type="radio" name="presenca" value="recusado" class="mr-3 w-5 h-5 accent-rose-600">
+              <span class="text-gray-700 font-medium">Infelizmente nao poderei</span>
+            </label>
+          </div>
+          <p id="presenca-erro" class="text-red-500 text-sm mt-2 hidden">Por favor, selecione uma opcao.</p>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="mensagem">Mensagem para os Noivos</label>
+          <textarea id="mensagem" name="mensagem"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none"
+            rows="4" placeholder="Deixe uma mensagem carinhosa..."></textarea>
+        </div>
+        <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-lg">
+          <i class="fa-solid fa-paper-plane mr-2"></i>Confirmar Presenca
+        </button>
+      </form>
+    </div>
+
+    <!-- Sucesso confirmado -->
+    <div id="msg-confirmado" class="hidden bg-white rounded-2xl shadow-2xl p-10 text-center">
+      <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fa-solid fa-circle-check text-green-500 text-5xl"></i>
+      </div>
+      <h3 class="text-3xl font-serif font-bold text-gray-800 mb-3">Presenca Confirmada!</h3>
+      <p class="text-gray-600 text-lg mb-2">Que alegria! Estamos muito felizes que voce vira.</p>
+      <p class="text-gray-500">Mal podemos esperar para celebrar este dia especial com voce!</p>
+      <div class="mt-6 text-5xl">&#127881;&#128149;</div>
+    </div>
+
+    <!-- Sucesso recusado -->
+    <div id="msg-recusado" class="hidden bg-white rounded-2xl shadow-2xl p-10 text-center">
+      <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fa-solid fa-envelope text-blue-500 text-5xl"></i>
+      </div>
+      <h3 class="text-3xl font-serif font-bold text-gray-800 mb-3">Obrigado pela Resposta</h3>
+      <p class="text-gray-600 text-lg mb-2">Sentiremos muito a sua falta!</p>
+      <p class="text-gray-500">Sua resposta foi registada. Obrigado por nos avisar.</p>
+      <div class="mt-6 text-5xl">&#128140;</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 bg-white">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Perguntas Frequentes</h2>
+      <p class="text-xl text-gray-600">Tire suas duvidas sobre o evento</p>
+    </div>
+    <div class="space-y-4">
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Qual e o traje para o evento?</h3>
+        <p class="text-gray-600">O traje e formal. As senhoras podem usar capulana elegante, vestido ou conjunto. Os senhores devem vir de fato ou camisa social com calcas. Por favor, evitem usar branco, que e reservado para a noiva.</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Cada convidado pode trazer acompanhante?</h3>
+        <p class="text-gray-600">Cada convite e valido para no maximo 2 pessoas. Pedimos que respeitem este limite para que possamos acomodar todos confortavelmente. Confirme o numero de pessoas no formulario acima.</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Como posso oferecer um presente?</h3>
+        <p class="text-gray-600">Pode contribuir via M-Pesa ou transferencia bancaria. Os dados estao disponiveis na seccao de presentes acima. Envelopes tambem sao bem-vindos no dia do evento.</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Ate quando posso confirmar a presenca?</h3>
+        <p class="text-gray-600">Por favor, confirme a sua presenca ate ao dia 15 de Setembro de 2026. Isso ajuda-nos a organizar melhor o espaco, a refeicao e o programa do dia.</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Como chegar ao local do evento?</h3>
+        <p class="text-gray-600">Os detalhes do local serao partilhados em breve. Para quem precisar de boleia, recomendamos combinar com outros convidados. Entre em contacto connosco para mais informacoes.</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Posso tirar fotos durante a cerimonia religiosa?</h3>
+        <p class="text-gray-600">Durante a cerimonia na igreja pedimos que respeitem o momento sagrado e mantenham os telemoveis em silencio. Na recepcao estao completamente a vontade para fotografar e partilhar os momentos!</p>
+      </div>
+      <div class="bg-rose-50 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">A que horas devo chegar?</h3>
+        <p class="text-gray-600">A cerimonia inicia as 16h00 em ponto. Pedimos que cheguem com pelo menos 15 minutos de antecedencia para acomodacao. A recepcao comeca as 18h00.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-white py-16">
+  <div class="container mx-auto px-6 text-center">
+    <div class="text-5xl font-serif font-bold text-rose-400 mb-4">E &amp; P</div>
+    <p class="text-gray-400 mb-2 text-lg">03 de Outubro de 2026 &bull; Mocambique</p>
+    <p class="text-gray-500 mb-8">Com amor e gratidao por compartilhar este momento conosco</p>
+    <i class="fa-solid fa-heart text-rose-400 text-3xl mb-8 block"></i>
+    <p class="text-gray-600 text-sm">&#169; 2025 Casamento Eckson &amp; Palmira. Feito com amor.</p>
+    <a href="admin.html" class="text-gray-700 hover:text-gray-500 text-xs mt-6 inline-block transition">&#9881; Administracao</a>
+  </div>
+</footer>
+
+<script>
+  // Countdown
+  (function () {
+    var target = new Date('2026-10-03T16:00:00');
+    function tick() {
+      var diff = target - new Date();
+      if (diff < 0) diff = 0;
+      document.getElementById('days').textContent    = Math.floor(diff / 86400000);
+      document.getElementById('hours').textContent   = Math.floor((diff % 86400000) / 3600000);
+      document.getElementById('minutes').textContent = Math.floor((diff % 3600000) / 60000);
+      document.getElementById('seconds').textContent = Math.floor((diff % 60000) / 1000);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // Mobile menu
+  document.getElementById('menu-btn').addEventListener('click', function () {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+  });
+
+  // RSVP form
+  document.getElementById('rsvp-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var presencaEl = document.querySelector('input[name="presenca"]:checked');
+    if (!presencaEl) {
+      document.getElementById('presenca-erro').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('presenca-erro').classList.add('hidden');
+
+    var nomeVal = document.getElementById('nome').value.trim();
+    if (!nomeVal) {
+      document.getElementById('nome').focus();
+      return;
+    }
+
+    var rsvp = {
+      id:            String(Date.now()),
+      nome:          nomeVal,
+      email:         document.getElementById('email').value.trim(),
+      telefone:      document.getElementById('telefone').value.trim(),
+      acompanhantes: document.getElementById('acompanhantes').value,
+      status:        presencaEl.value,
+      restricoes:    '',
+      mensagem:      document.getElementById('mensagem').value.trim(),
+      dataSubmissao: new Date().toISOString()
+    };
+
+    var lista = JSON.parse(localStorage.getItem('covinte_rsvps') || '[]');
+    lista.push(rsvp);
+    localStorage.setItem('covinte_rsvps', JSON.stringify(lista));
+
+    document.getElementById('rsvp-form-wrapper').classList.add('hidden');
+    if (rsvp.status === 'confirmado') {
+      document.getElementById('msg-confirmado').classList.remove('hidden');
+    } else {
+      document.getElementById('msg-recusado').classList.remove('hidden');
+    }
+    document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('input[name="presenca"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.getElementById('presenca-erro').classList.add('hidden');
+    });
+  });
+</script>
+</body>
+</html>
