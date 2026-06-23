@@ -2,31 +2,42 @@ import { useEffect, useState } from 'react'
 import { getSettings, saveSetting, uploadToStorage } from '../../lib/supabase'
 
 const FIELDS = [
-  { section: 'Títulos das Secções', fields: [
-    { key: 'titulo_cerimonia', label: 'Título — Cerimónia',  hint: 'Ex: Cerimónia' },
-    { key: 'titulo_recepcao',  label: 'Título — Recepção',   hint: 'Ex: Recepção' },
+  { section: 'Datas', fields: [
+    { key: 'data_casamento', label: 'Data (ISO para countdown)', hint: 'Ex: 2026-10-03T16:00:00' },
+    { key: 'data_display',   label: 'Data (texto visível)',       hint: 'Ex: 03 de Outubro, 2026' },
+    { key: 'ano_casamento',  label: 'Ano',                        hint: '2026' },
   ]},
-  { section: 'Datas & Locais', fields: [
-    { key: 'data_casamento',   label: 'Data (ISO para countdown)', hint: 'Ex: 2026-10-03T16:00:00' },
-    { key: 'data_display',     label: 'Data (texto visível)',       hint: 'Ex: 03 de Outubro, 2026' },
-    { key: 'ano_casamento',    label: 'Ano',                        hint: '2026' },
-    { key: 'hora_cerimonia',   label: 'Hora da Cerimónia',          hint: '16:00h' },
-    { key: 'hora_recepcao',    label: 'Hora da Recepção',           hint: '18:00h' },
-    { key: 'local_cerimonia',  label: 'Local da Cerimónia',         hint: 'Nome da Igreja' },
-    { key: 'morada_cerimonia', label: 'Morada da Cerimónia',        hint: 'Bairro, cidade' },
-    { key: 'local_recepcao',   label: 'Local da Recepção',          hint: 'Nome do salão' },
-    { key: 'morada_recepcao',  label: 'Morada da Recepção',         hint: 'Bairro, cidade' },
+  { section: '⛪ Cerimónia Religiosa', fields: [
+    { key: 'titulo_religiosa',  label: 'Título',   hint: 'Cerimónia Religiosa' },
+    { key: 'hora_religiosa',    label: 'Horário',  hint: '16:00h' },
+    { key: 'local_religiosa',   label: 'Local',    hint: 'Nome da Igreja' },
+    { key: 'morada_religiosa',  label: 'Morada',   hint: 'Bairro, cidade' },
+    { key: 'mapa_religiosa',    label: 'Link Mapa (Google Maps)', hint: 'https://maps.google.com/?q=...' },
   ]},
-  { section: 'Mapa (link Google Maps)', fields: [
-    { key: 'mapa_cerimonia', label: 'Link Mapa — Cerimónia', hint: 'https://maps.google.com/?q=...' },
-    { key: 'mapa_recepcao',  label: 'Link Mapa — Recepção',  hint: 'https://maps.google.com/?q=...' },
+  { section: '⚖️ Cerimónia Civil', fields: [
+    { key: 'titulo_civil',  label: 'Título',   hint: 'Cerimónia Civil' },
+    { key: 'hora_civil',    label: 'Horário',  hint: '14:00h' },
+    { key: 'local_civil',   label: 'Local',    hint: 'Nome do Cartório / Conservatória' },
+    { key: 'morada_civil',  label: 'Morada',   hint: 'Bairro, cidade' },
+    { key: 'mapa_civil',    label: 'Link Mapa (Google Maps)', hint: 'https://maps.google.com/?q=...' },
   ]},
-  { section: 'Dress Code & Jantar', fields: [
-    { key: 'dress_code', label: 'Dress Code',  hint: 'Ex: Traje formal / Capulana elegante' },
-    { key: 'jantar',     label: 'Jantar',       hint: 'Ex: Buffet Completo & Open Bar' },
+  { section: '🍷 Copo de Água (Sábado)', fields: [
+    { key: 'titulo_copa',  label: 'Título',   hint: 'Copo de Água' },
+    { key: 'hora_copa',    label: 'Horário',  hint: '18:00h' },
+    { key: 'local_copa',   label: 'Local',    hint: 'Nome do salão' },
+    { key: 'morada_copa',  label: 'Morada',   hint: 'Bairro, cidade' },
+    { key: 'mapa_copa',    label: 'Link Mapa (Google Maps)', hint: 'https://maps.google.com/?q=...' },
   ]},
-  { section: 'Contactos & Presentes', fields: [
-    { key: 'mpesa',      label: 'M-Pesa / Conta bancária',   hint: '+258 …' },
+  { section: '🥂 Chiguiana (Domingo)', fields: [
+    { key: 'titulo_recepcao',  label: 'Título',   hint: 'Chiguiana' },
+    { key: 'hora_recepcao',    label: 'Horário',  hint: '15:00h' },
+    { key: 'local_recepcao',   label: 'Local',    hint: 'Nome do espaço' },
+    { key: 'morada_recepcao',  label: 'Morada',   hint: 'Bairro, cidade' },
+    { key: 'mapa_recepcao',    label: 'Link Mapa (Google Maps)', hint: 'https://maps.google.com/?q=...' },
+  ]},
+  { section: 'Dress Code & Contactos', fields: [
+    { key: 'dress_code', label: 'Dress Code',               hint: 'Traje formal / Capulana elegante' },
+    { key: 'mpesa',      label: 'M-Pesa / Conta bancária',  hint: '+258 …' },
     { key: 'prazo_rsvp', label: 'Prazo confirmação (texto)', hint: 'Ex: 15 de Setembro de 2026' },
   ]},
 ]
