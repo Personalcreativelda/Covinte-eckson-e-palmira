@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getPhotos } from '../../lib/supabase'
+import Reveal from '../common/Reveal'
 
 const PLACEHOLDER_PHOTOS = [
   { id: 'p1', url: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/85bef00f5f-7ae48bce970b40e3edbf.png', caption: 'casal sorrindo', span: '' },
@@ -24,34 +25,38 @@ export default function Galeria() {
   return (
     <section id="galeria" className="py-24 bg-gradient-to-b from-white to-rose-50">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">
             Galeria de Momentos
           </h2>
           <p className="text-xl text-gray-600">Nossos momentos mais especiais</p>
-        </div>
+        </Reveal>
 
         {isPlaceholder ? (
           /* Layout exacto do HTML com grid 2/4 colunas e col-span */
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {PLACEHOLDER_PHOTOS.map(p => (
-              <div key={p.id}
-                className={`h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 cursor-pointer ${p.span}`}
-                onClick={() => setSelected(p)}>
-                <img className="w-full h-full object-cover" src={p.url} alt={p.caption} />
-              </div>
+            {PLACEHOLDER_PHOTOS.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 4) * 80} className={p.span}>
+                <div
+                  className="h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 cursor-pointer"
+                  onClick={() => setSelected(p)}>
+                  <img className="w-full h-full object-cover" src={p.url} alt={p.caption} />
+                </div>
+              </Reveal>
             ))}
           </div>
         ) : (
           /* Layout masonry para fotos reais carregadas pelo admin */
           <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {list.map(p => (
-              <div key={p.id}
-                className="break-inside-avoid overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.02] cursor-pointer"
-                onClick={() => setSelected(p)}>
-                <img src={p.url} alt={p.caption || 'Foto do casal'}
-                  className="w-full h-auto object-cover" />
-              </div>
+            {list.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 6) * 80} className="break-inside-avoid">
+                <div
+                  className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.02] cursor-pointer"
+                  onClick={() => setSelected(p)}>
+                  <img src={p.url} alt={p.caption || 'Foto do casal'}
+                    className="w-full h-auto object-cover" />
+                </div>
+              </Reveal>
             ))}
           </div>
         )}

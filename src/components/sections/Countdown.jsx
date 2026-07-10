@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Reveal from '../common/Reveal'
 
 function pad(n) { return String(n).padStart(2, '0') }
 
@@ -33,17 +34,19 @@ export default function Countdown({ settings = {} }) {
   return (
     <section id="countdown" className="py-12 md:py-20 bg-white">
       <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-        <h2 className="text-3xl md:text-5xl font-serif font-bold text-center text-gray-800 mb-8 md:mb-16">
-          Contagem Regressiva
-        </h2>
+        <Reveal>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-center text-gray-800 mb-8 md:mb-16">
+            Contagem Regressiva
+          </h2>
+        </Reveal>
         <div className="grid grid-cols-4 gap-3 md:gap-8">
-          {units.map(u => (
-            <div key={u.label} className="text-center">
-              <div className="bg-rose-50 rounded-xl md:rounded-2xl p-3 md:p-8 shadow-lg">
+          {units.map((u, i) => (
+            <Reveal key={u.label} delay={i * 100} className="text-center">
+              <div className="bg-rose-50 rounded-xl md:rounded-2xl p-3 md:p-8 shadow-lg transition transform hover:-translate-y-1 hover:shadow-xl">
                 <div className="text-3xl md:text-5xl font-bold text-rose-600 mb-1 md:mb-2">{u.value}</div>
                 <div className="text-gray-600 font-medium text-xs md:text-base">{u.label}</div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

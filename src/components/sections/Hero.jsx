@@ -1,18 +1,31 @@
+import { useState } from 'react'
+
 export default function Hero({ settings = {} }) {
   const data = settings.data_display || '03 de Outubro, 2026'
   const foto = settings.foto_hero    || null
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+    setTilt({
+      x: ((e.clientX - left) / width - 0.5) * 2,
+      y: ((e.clientY - top) / height - 0.5) * 2,
+    })
+  }
 
   return (
-    <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" onMouseMove={handleMouseMove}
+      className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50 z-10" />
 
       {foto
         ? <img src={foto} alt="Foto do casal"
-            className="absolute inset-0 w-full h-full object-cover object-center" />
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 ease-out will-change-transform"
+            style={{ transform: `scale(1.08) translate(${tilt.x * -10}px, ${tilt.y * -10}px)` }} />
         : <div className="absolute inset-0 bg-gradient-to-br from-rose-900 to-rose-600" />
       }
 
-      <div className="relative z-20 text-center text-white px-6 w-full max-w-4xl mx-auto">
+      <div className="relative z-20 text-center text-white px-6 w-full max-w-4xl mx-auto animate-[fade-in-up_1s_ease-out]">
         <i className="fa-solid fa-heart text-3xl md:text-5xl text-rose-300 animate-pulse mb-4 md:mb-6 block" />
         <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl font-bold mb-3 md:mb-4 leading-tight">
           Eckson &amp; Palmira

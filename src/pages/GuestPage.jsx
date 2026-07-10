@@ -69,7 +69,7 @@ export default function GuestPage({ tipo = 'sabado' }) {
       <Galeria />
       <Presentes     settings={settings} />
       <RSVP          settings={settings} dias={config.dias} labelDias={config.label} />
-      <FAQ />
+      <FAQ           dias={config.dias} />
       <Footer        settings={settings} />
     </div>
   )

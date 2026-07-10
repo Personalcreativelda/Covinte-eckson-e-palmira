@@ -37,7 +37,8 @@ const FIELDS = [
   ]},
   { section: 'Dress Code & Contactos', fields: [
     { key: 'dress_code', label: 'Dress Code',               hint: 'Traje formal / Capulana elegante' },
-    { key: 'mpesa',      label: 'M-Pesa / Conta bancária',  hint: '+258 …' },
+    { key: 'mpesa',      label: 'M-Pesa',                   hint: '+258 …' },
+    { key: 'emola',      label: 'E-mola',                   hint: '+258 …' },
     { key: 'prazo_rsvp', label: 'Prazo confirmação (texto)', hint: 'Ex: 15 de Setembro de 2026' },
   ]},
 ]

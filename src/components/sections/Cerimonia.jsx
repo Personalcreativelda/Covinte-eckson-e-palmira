@@ -1,3 +1,5 @@
+import Reveal from '../common/Reveal'
+
 const DATE_BADGE = {
   religiosa: { label: 'Sáb · 03 Out', color: 'bg-rose-100 text-rose-700' },
   civil:     { label: 'Sáb · 03 Out', color: 'bg-purple-100 text-purple-700' },
@@ -62,20 +64,20 @@ export default function Cerimonia({ settings = {}, eventos = ['religiosa', 'civi
   return (
     <section id="cerimonia" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-        <div className="text-center mb-10 md:mb-16">
+        <Reveal className="text-center mb-10 md:mb-16">
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-gray-800 mb-3 md:mb-4">
             O Nosso Grande Dia
           </h2>
           <p className="text-base md:text-xl text-gray-600">Detalhes dos momentos especiais</p>
-        </div>
+        </Reveal>
 
         <div className={gridClass(visiveis.length)}>
-          {visiveis.map(ev => {
+          {visiveis.map((ev, i) => {
             const badge = DATE_BADGE[ev.key]
             return (
-              <div key={ev.key}
-                className={`bg-gradient-to-br ${ev.cor.card} rounded-2xl p-6 md:p-8 shadow-xl flex flex-col
-                  ${visiveis.length === 1 ? 'w-full max-w-sm' : ''}`}>
+              <Reveal key={ev.key} delay={i * 120} className={visiveis.length === 1 ? 'w-full max-w-sm' : ''}>
+              <div
+                className={`bg-gradient-to-br ${ev.cor.card} rounded-2xl p-6 md:p-8 shadow-xl flex flex-col h-full transition transform hover:-translate-y-2 hover:shadow-2xl`}>
 
                 {/* Data */}
                 {badge && (
@@ -129,6 +131,7 @@ export default function Cerimonia({ settings = {}, eventos = ['religiosa', 'civi
                   )}
                 </div>
               </div>
+              </Reveal>
             )
           })}
         </div>
