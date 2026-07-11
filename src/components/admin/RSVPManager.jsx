@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getRSVPs, updateRSVPStatus, deleteRSVP, upsertRSVP } from '../../lib/supabase'
+import { getRSVPs, updateRSVPStatus, deleteRSVP, upsertRSVP, getSettings, saveSetting } from '../../lib/supabase'
+
+function pessoasCount(acompanhantes) {
+  const n = parseInt(acompanhantes, 10)
+  return Number.isFinite(n) ? n : 1
+}
 
 const BADGE = {
   confirmado: 'bg-green-100 text-green-800',
@@ -22,13 +27,29 @@ export default function RSVPManager() {
   const [search, setSearch]       = useState('')
   const [loading, setLoading]     = useState(true)
   const [modal, setModal]         = useState(null)
+  const [settings, setSettings]   = useState({})
+  const [metaEdit, setMetaEdit]   = useState(false)
+  const [metaValue, setMetaValue] = useState('100')
 
   const load = async () => {
     setLoading(true)
     try { setRsvps(await getRSVPs()) } finally { setLoading(false) }
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => {
+    load()
+    getSettings().then(s => { setSettings(s); setMetaValue(s.meta_convidados || '100') }).catch(() => {})
+  }, [])
+
+  const metaConvidados = Number(settings.meta_convidados) || 100
+
+  const saveMeta = async () => {
+    const valor = String(Math.max(0, Number(metaValue) || 0))
+    await saveSetting('meta_convidados', valor)
+    setSettings(s => ({ ...s, meta_convidados: valor }))
+    setMetaValue(valor)
+    setMetaEdit(false)
+  }
 
   const filtered = rsvps.filter(r => {
     if (filter !== 'todos' && r.status !== filter) return false
@@ -40,11 +61,15 @@ export default function RSVPManager() {
     return true
   })
 
+  const pessoasConfirmadas = rsvps
+    .filter(r => r.status === 'confirmado')
+    .reduce((soma, r) => soma + pessoasCount(r.acompanhantes), 0)
+
   const stats = {
     total:       rsvps.length,
     confirmados: rsvps.filter(r => r.status === 'confirmado').length,
     recusados:   rsvps.filter(r => r.status === 'recusado').length,
-    pendentes:   rsvps.filter(r => r.status === 'pendente').length,
+    pendentes:   Math.max(0, metaConvidados - pessoasConfirmadas),
   }
 
   const statsDias = {
@@ -169,17 +194,41 @@ export default function RSVPManager() {
 
   return (
     <div>
+      {/* Meta de convidados */}
+      <div className="flex items-center justify-center gap-2 mb-3 text-sm text-gray-500">
+        <i className="fa-solid fa-bullseye text-rose-400" />
+        {metaEdit ? (
+          <>
+            <span>Meta de convidados:</span>
+            <input type="number" min="0" value={metaValue} onChange={e => setMetaValue(e.target.value)}
+              className="w-20 px-2 py-1 border border-gray-300 rounded-lg text-center outline-none focus:ring-2 focus:ring-rose-400" />
+            <button onClick={saveMeta} className="text-green-600 hover:text-green-700"><i className="fa-solid fa-check" /></button>
+            <button onClick={() => { setMetaEdit(false); setMetaValue(String(metaConvidados)) }} className="text-gray-400 hover:text-gray-600">
+              <i className="fa-solid fa-xmark" />
+            </button>
+          </>
+        ) : (
+          <>
+            <span>Meta de convidados: <strong className="text-gray-700">{metaConvidados}</strong> pessoas</span>
+            <button onClick={() => setMetaEdit(true)} className="text-blue-500 hover:text-blue-700">
+              <i className="fa-solid fa-pen text-xs" />
+            </button>
+          </>
+        )}
+      </div>
+
       {/* Stats gerais */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         {[
           { label: 'Total',       value: stats.total,       color: 'border-gray-300' },
           { label: 'Confirmados', value: stats.confirmados, color: 'border-green-400' },
           { label: 'Não Virão',   value: stats.recusados,   color: 'border-red-400' },
-          { label: 'Pendentes',   value: stats.pendentes,   color: 'border-yellow-400' },
+          { label: 'Pendentes',   value: stats.pendentes,   color: 'border-yellow-400', sub: `${pessoasConfirmadas}/${metaConvidados} confirmaram` },
         ].map(s => (
           <div key={s.label} className={`bg-white rounded-xl shadow p-5 text-center border-t-4 ${s.color}`}>
             <div className="text-3xl font-bold text-gray-800">{s.value}</div>
             <div className="text-gray-500 text-sm mt-1">{s.label}</div>
+            {s.sub && <div className="text-gray-400 text-xs mt-1">{s.sub}</div>}
           </div>
         ))}
       </div>

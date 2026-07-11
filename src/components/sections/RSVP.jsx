@@ -1,39 +1,39 @@
 import { useState } from 'react'
-import { createRSVP } from '../../lib/supabase'
+import { createRSVP, findRSVPByContacto, updateRSVP } from '../../lib/supabase'
 import Reveal from '../common/Reveal'
 
 function SuccessModal({ tipo, labelDias, onClose }) {
   const isSim = tipo === 'success_sim'
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/50" onClick={onClose}>
       <div
-        className="relative bg-white rounded-2xl shadow-2xl p-8 md:p-10 text-center max-w-md w-full"
+        className="relative bg-white rounded-2xl shadow-2xl p-5 sm:p-8 md:p-10 text-center w-full max-w-sm sm:max-w-md max-h-[85vh] overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
         <button onClick={onClose} aria-label="Fechar"
-          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition">
-          <i className="fa-solid fa-xmark text-xl" />
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition">
+          <i className="fa-solid fa-xmark text-lg sm:text-xl" />
         </button>
 
         {isSim ? (
           <>
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-              <i className="fa-solid fa-circle-check text-green-500 text-4xl md:text-5xl" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5">
+              <i className="fa-solid fa-circle-check text-green-500 text-3xl sm:text-4xl md:text-5xl" />
             </div>
-            <h3 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-3">Presença Confirmada!</h3>
-            <p className="text-gray-600 text-base md:text-lg mb-1">Que alegria! Estamos muito felizes que vai estar presente.</p>
-            <p className="text-rose-600 font-semibold text-sm mt-2">📅 {labelDias}</p>
-            <div className="mt-5 text-4xl">🎉💕</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-2 sm:mb-3">Presença Confirmada!</h3>
+            <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-1">Que alegria! Estamos muito felizes que vai estar presente.</p>
+            <p className="text-rose-600 font-semibold text-xs sm:text-sm mt-2">📅 {labelDias}</p>
+            <div className="mt-4 sm:mt-5 text-3xl sm:text-4xl">🎉💕</div>
           </>
         ) : (
           <>
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5">
-              <i className="fa-solid fa-envelope text-blue-500 text-4xl md:text-5xl" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5">
+              <i className="fa-solid fa-envelope text-blue-500 text-3xl sm:text-4xl md:text-5xl" />
             </div>
-            <h3 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-3">Obrigado pela Resposta</h3>
-            <p className="text-gray-600 text-base md:text-lg mb-1">Sentiremos muito a sua falta!</p>
-            <p className="text-gray-500 text-sm">A sua resposta foi registada. Obrigado por nos avisar.</p>
-            <div className="mt-5 text-4xl">💌</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-2 sm:mb-3">Obrigado pela Resposta</h3>
+            <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-1">Sentiremos muito a sua falta!</p>
+            <p className="text-gray-500 text-xs sm:text-sm">A sua resposta foi registada. Obrigado por nos avisar.</p>
+            <div className="mt-4 sm:mt-5 text-3xl sm:text-4xl">💌</div>
           </>
         )}
       </div>
@@ -60,14 +60,21 @@ export default function RSVP({ settings = {}, dias = 'sabado', labelDias = 'Sáb
     if (!form.nome.trim()) return
     setStatus('loading')
     try {
-      await createRSVP({
+      const payload = {
         nome:          form.nome.trim(),
         telefone:      form.telefone.trim(),
         acompanhantes: form.acompanhantes,
         status:        form.presenca,
         mensagem:      form.mensagem.trim(),
         dias,
-      })
+      }
+      // Evita duplicados: se já existir um RSVP com o mesmo nome + contacto, actualiza-o em vez de criar outro
+      const existente = await findRSVPByContacto(form.nome, form.telefone)
+      if (existente) {
+        await updateRSVP(existente.id, payload)
+      } else {
+        await createRSVP(payload)
+      }
       setStatus(form.presenca === 'confirmado' ? 'success_sim' : 'success_nao')
       setModalOpen(true)
     } catch {

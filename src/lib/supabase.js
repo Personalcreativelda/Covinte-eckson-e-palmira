@@ -32,6 +32,29 @@ export async function createRSVP(rsvp) {
   return data
 }
 
+// Procura um RSVP já existente com o mesmo nome + contacto (para evitar duplicados)
+export async function findRSVPByContacto(nome, telefone) {
+  if (!supabase) return null
+  const nomeNorm = (nome || '').trim().toLowerCase()
+  const telNorm  = (telefone || '').replace(/\D/g, '')
+  if (!nomeNorm) return null
+
+  const { data, error } = await supabase.from('rsvps').select('*').ilike('nome', nomeNorm)
+  if (error) throw error
+
+  return (data || []).find(r => {
+    const rNome = (r.nome || '').trim().toLowerCase()
+    const rTel  = (r.telefone || '').replace(/\D/g, '')
+    return rNome === nomeNorm && rTel === telNorm
+  }) || null
+}
+
+export async function updateRSVP(id, rsvp) {
+  if (!supabase) return notConfigured()
+  const { error } = await supabase.from('rsvps').update(rsvp).eq('id', id)
+  if (error) throw error
+}
+
 export async function updateRSVPStatus(id, status) {
   if (!supabase) return notConfigured()
   const { error } = await supabase.from('rsvps').update({ status }).eq('id', id)
