@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Hero({ settings = {} }) {
   const data  = settings.data_display || '03 de Outubro, 2026'
   const foto  = settings.foto_hero    || null
   const video = settings.video_hero   || null
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const videoRef = useRef(null)
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
@@ -14,13 +15,27 @@ export default function Hero({ settings = {} }) {
     })
   }
 
+  // Garante autoplay em mobile: define `muted` via DOM (React às vezes não o faz a tempo)
+  // e tenta play() explicitamente, com fallback no primeiro toque caso o browser bloqueie.
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    el.muted = true
+    const tentar = () => el.play().catch(() => {})
+    tentar()
+
+    const retomar = () => { tentar(); document.removeEventListener('touchstart', retomar) }
+    document.addEventListener('touchstart', retomar, { once: true, passive: true })
+    return () => document.removeEventListener('touchstart', retomar)
+  }, [video])
+
   return (
     <section id="hero" onMouseMove={handleMouseMove}
       className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50 z-10" />
 
       {video
-        ? <video src={video} autoPlay muted loop playsInline
+        ? <video ref={videoRef} src={video} autoPlay muted loop playsInline preload="auto" disablePictureInPicture
             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 ease-out will-change-transform"
             style={{ transform: `scale(1.08) translate(${tilt.x * -10}px, ${tilt.y * -10}px)` }} />
         : foto
