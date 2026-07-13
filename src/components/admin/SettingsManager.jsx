@@ -74,6 +74,12 @@ export default function SettingsManager() {
     }
   }
 
+  const handleRemoveVideo = async () => {
+    set('video_hero', '')
+    await saveSetting('video_hero', '')
+    setSaved(s => ({ ...s, video_hero: '' }))
+  }
+
   return (
     <div className="space-y-8 max-w-2xl">
 
@@ -89,6 +95,28 @@ export default function SettingsManager() {
           label="Clique para trocar a foto principal"
           loading={uploading.foto_hero}
           onChange={f => handlePhotoUpload('foto_hero', f, 'hero')} />
+      </div>
+
+      {/* Video do hero */}
+      <div className="bg-white rounded-2xl shadow p-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-2">
+          <i className="fa-solid fa-video text-rose-500 mr-2" />Vídeo de Fundo (Hero)
+        </h3>
+        <p className="text-xs text-gray-400 mb-4">Se definido, o vídeo substitui a foto principal como fundo do banner. Formato recomendado: MP4, sem som, poucos MB.</p>
+        {settings.video_hero && (
+          <div className="mb-4">
+            <video src={settings.video_hero} className="w-full h-48 object-cover rounded-xl" controls muted loop />
+            <button onClick={handleRemoveVideo}
+              className="mt-2 text-xs text-red-500 hover:text-red-700 font-medium">
+              <i className="fa-solid fa-trash mr-1" />Remover vídeo (voltar à foto)
+            </button>
+          </div>
+        )}
+        <PhotoUploadBtn
+          label="Clique para carregar um vídeo"
+          accept="video/*"
+          loading={uploading.video_hero}
+          onChange={f => handlePhotoUpload('video_hero', f, 'hero')} />
       </div>
 
       {/* Fotos da Nossa Historia */}
@@ -153,14 +181,14 @@ export default function SettingsManager() {
   )
 }
 
-function PhotoUploadBtn({ label, loading, onChange }) {
+function PhotoUploadBtn({ label, loading, onChange, accept = 'image/*' }) {
   return (
     <label className={`flex items-center gap-3 cursor-pointer border-2 border-dashed rounded-xl p-4
       hover:border-rose-400 hover:bg-rose-50 transition flex-1
       ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
       <i className={`fa-solid ${loading ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-up'} text-rose-400 text-2xl`} />
       <span className="text-gray-600 text-sm">{loading ? 'A carregar…' : label}</span>
-      <input type="file" accept="image/*" className="hidden"
+      <input type="file" accept={accept} className="hidden"
         onChange={e => e.target.files[0] && onChange(e.target.files[0])} />
     </label>
   )

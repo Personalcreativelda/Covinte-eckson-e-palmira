@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
 export default function Hero({ settings = {} }) {
-  const data = settings.data_display || '03 de Outubro, 2026'
-  const foto = settings.foto_hero    || null
+  const data  = settings.data_display || '03 de Outubro, 2026'
+  const foto  = settings.foto_hero    || null
+  const video = settings.video_hero   || null
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   const handleMouseMove = (e) => {
@@ -18,7 +19,11 @@ export default function Hero({ settings = {} }) {
       className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50 z-10" />
 
-      {foto
+      {video
+        ? <video src={video} autoPlay muted loop playsInline
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 ease-out will-change-transform"
+            style={{ transform: `scale(1.08) translate(${tilt.x * -10}px, ${tilt.y * -10}px)` }} />
+        : foto
         ? <img src={foto} alt="Foto do casal"
             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 ease-out will-change-transform"
             style={{ transform: `scale(1.08) translate(${tilt.x * -10}px, ${tilt.y * -10}px)` }} />
